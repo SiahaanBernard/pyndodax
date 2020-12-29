@@ -6,15 +6,15 @@ import time
 
 from . import common
 
-class vipAuth(AuthBase):
+class IndodaxAuth(AuthBase):
     def __init__(self, key, sign):
         # setup any auth-related data here
         self.key = key
         self.sign = sign
     def __call__(self, r):
         # modify and return the request
-        r.headers['Key'] = self.key
-        r.headers['Sign'] = self.sign
+        r.headers["Key"] = self.key
+        r.headers["Sign"] = self.sign
         return r
 
 def nonce():
@@ -26,7 +26,7 @@ def signature(secret, params):
     return sig.hexdigest()
 
 
-class TradeAPI:  
+class TradeAPI:
     def __init__(self, key, secret, requests_session=None):
         self.__key = key
         self.__secret = secret
@@ -36,66 +36,66 @@ class TradeAPI:
         else:
             self.__requests_session = common.Session()
 
-    def __post(self, method, params):        
-        url = 'https://indodax.com/tapi'
-        params['method'] = method
-        params['nonce'] = nonce()
-        auth = vipAuth(self.__key, signature(self.__secret, urlencode(params))) 
-        response = self.__requests_session.api_request(url, params, auth, 'post')
-        
-        return response['return']
+    def __post(self, method, params):
+        url = "https://indodax.com/tapi"
+        params["method"] = method
+        params["nonce"] = nonce()
+        auth = IndodaxAuth(self.__key, signature(self.__secret, urlencode(params)))
+        response = self.__requests_session.api_request(url, params, auth, "post")
+
+        return response["return"]
 
     def getInfo(self):
-        return self.__post('getInfo', {})
+        return self.__post("getInfo", {})
 
     def transHistory(self):
-        return self.__post('transHistory', {})
+        return self.__post("transHistory", {})
 
     def trade(self, pair, ttype, amount, price):
         params = {
             "pair" : pair,
             "type" : ttype,
             "price" : price}
-        if ttype == 'buy':
+        if ttype == "buy":
             params[pair[-3:]] = amount
-        elif ttype == 'sell':
+        elif ttype == "sell":
             params[pair[:3]] = amount
-        return self.__post('trade', params)
+        return self.__post("trade", params)
 
     def tradeHistory(self, pair, **kwargs):
-        '''Keyword arguments : count, from_id, end_id, order, since, end'''
+        """Keyword arguments : count, from_id, end_id, order, since, end"""
         params = {
             "pair" : pair
         }
         if kwargs:
             for key, value in kwargs.items():
                 params[key] = value
-        return self.__post('tradeHistory', params)
+        return self.__post("tradeHistory", params)
 
     def openOrders(self, pair):
         params = { "pair" : pair }
-        return self.__post('openOrders', params)
-    
+        return self.__post("openOrders", params)
+
     def orderHistory(self, pair, **kwargs):
-        '''Keyword arguments : count, from'''
+        """Keyword arguments : count, from"""
         params = {
             "pair" : pair
         }
         if kwargs:
             for key, value in kwargs.items():
                 params[key] = value
-        return self.__post('orderHistory', params)
+        return self.__post("orderHistory", params)
 
     def getOrder(self, pair, order_id):
         params = {
             "pair" : pair,
             "order_id" : order_id
         }
-        return self.__post('getOrder', params)
+        return self.__post("getOrder", params)
 
     def cancelOrder(self, pair, ttype, order_id):
         params = {
-            'pair' : pair,
+            "pair" : pair,
             "order_id" : order_id,
-            'type' : ttype}
-        return self.__post('cancelOrder', params)
+            "type" : ttype}
+        return self.__post("cancelOrder", params)

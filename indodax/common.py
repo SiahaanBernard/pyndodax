@@ -9,12 +9,12 @@ class APIResponseError(Exception):
 class Session:
     def __init__(self):
         self.__requests_session = requests.Session()
-        # self.__requests_session.headers.update({'User-Agent': 'medex'})
+        # self.__requests_session.headers.update({"User-Agent": "medex"})
 
-    def api_request(self, url, params=None, auth=None, http_call='get'):
-        if http_call == 'get':
+    def api_request(self, url, params=None, auth=None, http_call="get"):
+        if http_call == "get":
             response = self.__requests_session.get(url)
-        elif http_call == 'post':
+        elif http_call == "post":
             response = self.__requests_session.post(url, data=params, auth=auth)
         
         if not response.ok:

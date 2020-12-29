@@ -1,32 +1,32 @@
-# btcid
+# python-indodax
 Python wrapper for indodax.com API
 
-Gunakan python versi 3
+compatible with Python 3
 
-```sh
-import vipbtc
+```python
+import indodax
 ```
 
 Public API:
-```sh
-vipbtc.getTicker()
-vipbtc.getDepth()
-vipbtc.getTradeHistory()
+```python
+indodax.getTicker()
+indodax.getDepth()
+indodax.getTradeHistory()
 ```
 
 Trade API:
-```sh
-key = "API key anda"
-secret = "Secret key anda"
+```python
+key = "API key"
+secret = "Secret key"
 
-akun = vipbtc.TradeAPI(key, secret)
+account = indodax.TradeAPI(key, secret)
 
-akun.getInfo()
-akun.transHistory()
-akun.trade()
-akun.tradeHistory()
-akun.openOrders()
-akun.orderHistory()
-akun.getOrder()
-akun.cancelOrder()
+account.getInfo()
+account.transHistory()
+account.trade()
+account.tradeHistory()
+account.openOrders()
+account.orderHistory()
+account.getOrder()
+account.cancelOrder()
 ```
