@@ -1,25 +1,27 @@
 from distutils.core import setup
 setup(
-    name = "python-indodax", # How you named your package folder (MyLib)
-    packages = ["python-indodax"], # Chose the same as "name"
-    version = "0.0.1", # Start with a small number and increase it with every change you make
-    license="MIT", # Chose a license from here: https://help.github.com/articles/licensing-a-repository
-    description = "Python wrapper for indodax.com API", # Give a short description about your library
-    author = "Faisal Malik Widya Prasetya", # Type in your name
-    author_email = "faisalmalikwidyaprasetya@gmail.com", # Type in your E-Mail
-    url = "https://github.com/MasiCal354/python-indodax", # Provide either the link to your github or to your website
-    download_url = "https://github.com/MasiCal354/python-indodax/archive/v_01.tar.gz", # I explain this later on
-    keywords = ["indodax", "vipbtc", "api"], # Keywords that define your package best
-    install_requires=[ # I get to this in a second
+    name="indodax",  # How you named your package folder (MyLib)
+    packages=["indodax"],  # Chose the same as "name"
+    version="1.0.0",  # Start with a small number and increase it with every change you make
+    license="MIT",  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
+    # Give a short description about your library
+    description="Python wrapper for indodax.com API",
+    author="Bernard Siahaan",  # Type in your name
+    author_email="bernard.siahaan.xy@gmail.com",  # Type in your E-Mail
+    # Provide either the link to your github or to your website    keywords = ["indodax", "vipbtc", "api"], # Keywords that define your package best
+    url="https://github.com/SiahaanBernard/pyndodax",
+    install_requires=[  # I get to this in a second
         "requests",
         "pandas"
     ],
     classifiers=[
-        "Development Status :: 3 - Alpha", # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
-        "Intended Audience :: Developers", # Define that your audience are developers
+        # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",  # Define that your audience are developers
         "Topic :: Software Development :: Build Tools",
-        "License :: OSI Approved :: MIT License", # Again, pick a license
-        "Programming Language :: Python :: 3", # Specify which pyhton versions that you want to support
+        "License :: OSI Approved :: MIT License",  # Again, pick a license
+        # Specify which pyhton versions that you want to support
+        "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",

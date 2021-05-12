@@ -1,4 +1,4 @@
-# python-indodax
+# pyndodax
 Python wrapper for indodax.com API
 
 compatible with Python 3

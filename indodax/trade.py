@@ -6,20 +6,24 @@ import time
 
 from . import common
 
+
 class IndodaxAuth(AuthBase):
     def __init__(self, key, sign):
         # setup any auth-related data here
         self.key = key
         self.sign = sign
+
     def __call__(self, r):
         # modify and return the request
         r.headers["Key"] = self.key
         r.headers["Sign"] = self.sign
         return r
 
+
 def nonce():
     time.sleep(1/1000)
     return str(int(time.time()*1000))
+
 
 def signature(secret, params):
     sig = hmac.new(secret.encode(), params.encode(), hashlib.sha512)
@@ -40,8 +44,10 @@ class TradeAPI:
         url = "https://indodax.com/tapi"
         params["method"] = method
         params["nonce"] = nonce()
-        auth = IndodaxAuth(self.__key, signature(self.__secret, urlencode(params)))
-        response = self.__requests_session.api_request(url, params, auth, "post")
+        auth = IndodaxAuth(self.__key, signature(
+            self.__secret, urlencode(params)))
+        response = self.__requests_session.api_request(
+            url, params, auth, "post")
 
         return response["return"]
 
@@ -53,19 +59,19 @@ class TradeAPI:
 
     def trade(self, pair, ttype, amount, price):
         params = {
-            "pair" : pair,
-            "type" : ttype,
-            "price" : price}
+            "pair": pair,
+            "type": ttype,
+            "price": price}
         if ttype == "buy":
-            params[pair[-3:]] = amount
+            params[pair.split('_')[1]] = amount
         elif ttype == "sell":
-            params[pair[:3]] = amount
+            params[pair.split('_')[0]] = amount
         return self.__post("trade", params)
 
     def tradeHistory(self, pair, **kwargs):
         """Keyword arguments : count, from_id, end_id, order, since, end"""
         params = {
-            "pair" : pair
+            "pair": pair
         }
         if kwargs:
             for key, value in kwargs.items():
@@ -73,13 +79,13 @@ class TradeAPI:
         return self.__post("tradeHistory", params)
 
     def openOrders(self, pair):
-        params = { "pair" : pair }
+        params = {"pair": pair}
         return self.__post("openOrders", params)
 
     def orderHistory(self, pair, **kwargs):
         """Keyword arguments : count, from"""
         params = {
-            "pair" : pair
+            "pair": pair
         }
         if kwargs:
             for key, value in kwargs.items():
@@ -88,14 +94,14 @@ class TradeAPI:
 
     def getOrder(self, pair, order_id):
         params = {
-            "pair" : pair,
-            "order_id" : order_id
+            "pair": pair,
+            "order_id": order_id
         }
         return self.__post("getOrder", params)
 
     def cancelOrder(self, pair, ttype, order_id):
         params = {
-            "pair" : pair,
-            "order_id" : order_id,
-            "type" : ttype}
+            "pair": pair,
+            "order_id": order_id,
+            "type": ttype}
         return self.__post("cancelOrder", params)
