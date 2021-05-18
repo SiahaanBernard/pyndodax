@@ -14,7 +14,7 @@ def get_data(pair, param, requests_session):
     return response
 
 
-def getTicker(pair="btc_idr", session=None):
+def getTicker(pair, session=None):
     """
     Retrieve the ticker for the given pair.  Returns a Ticker instance.
 
@@ -36,9 +36,9 @@ def getTicker(pair="btc_idr", session=None):
     return ticker
 
 
-def getDepth(pair="btc_idr", session=None):
+def getDepth(pair, session=None):
     """
-    Retrieve the depth for the given pair.  Returns a dictionary of asks and bids dataframe.
+    Retrieve the depth for the given pair.  Returns a dictionary of asks and bids.
 
     Arguments:
     pair : trading pair
@@ -46,19 +46,10 @@ def getDepth(pair="btc_idr", session=None):
     """
 
     depth = get_data(pair, "depth", requests_session=session)
-
-    asks = pd.DataFrame(depth["sell"])
-    asks.rename(columns={0: "price", 1: "volume"}, inplace=True)
-    asks[["price", "volume"]] = asks[["price", "volume"]].apply(pd.to_numeric)
-
-    bids = pd.DataFrame(depth["buy"])
-    bids.rename(columns={0: "price", 1: "volume"}, inplace=True)
-    bids[["price", "volume"]] = bids[["price", "volume"]].apply(pd.to_numeric)
-
-    return {"Asks": asks, "Bids": bids}
+    return depth
 
 
-def getTradeHistory(pair="btc_idr", session=None):
+def getTradeHistory(pair, session=None):
     """
     Retrieve the trade history for the given pair.  Returns a pandas dataframe.
 
